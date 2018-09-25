@@ -14,7 +14,7 @@ public class DataManager {
 
     private Context mContext;
     private DBConnect mDB;
-   // private PreManager mPreManager;
+    private PrefManager mPreManager;
 
     public static DataManager getInstance() {
         if (INSTANCE==null){
@@ -26,6 +26,7 @@ public class DataManager {
     public DataManager(){
         mContext = App.getContext();
         mDB = new DBConnect(mContext);
+        mPreManager = new PrefManager();
     }
 
     public Context getContext() {
@@ -34,5 +35,9 @@ public class DataManager {
 
     public DBConnect getDB() {
         return mDB;
+    }
+
+    public PrefManager getPreManager() {
+        return mPreManager;
     }
 }

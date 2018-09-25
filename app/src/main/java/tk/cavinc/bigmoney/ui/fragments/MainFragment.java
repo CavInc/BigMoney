@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
 
     private DataManager mDataManager;
     private ListView mListView;
+    private TextView mSummBalanse;
 
     private BankListAdapter mAdapter;
 
@@ -50,6 +52,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+
+        mSummBalanse = rootView.findViewById(R.id.main_balanse_itogo);
 
         mListView = rootView.findViewById(R.id.main_lv);
         mListView.setOnItemLongClickListener(this);
@@ -83,6 +87,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         } else {
             mAdapter.notifyDataSetChanged();
         }
+
+        mSummBalanse.setText("Итого : ");
     }
 
     @Override

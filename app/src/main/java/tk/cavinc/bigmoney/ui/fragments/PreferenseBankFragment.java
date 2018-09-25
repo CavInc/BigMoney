@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -54,6 +55,8 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
         adapterBanl.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBank.setAdapter(adapterBanl);
 
+        mValute.setOnItemSelectedListener(mSelectedListener);
+
 
         return rootView;
     }
@@ -62,4 +65,17 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
 
     }
+
+    AdapterView.OnItemSelectedListener mSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Object data = parent.getItemAtPosition(position);
+            mDataManager.getPreManager().setConvValute((String) data);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 }
