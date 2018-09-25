@@ -47,6 +47,7 @@ public class BankListAdapter extends ArrayAdapter<MainBankModel> {
 
         MainBankModel record = getItem(position);
         holder.mBank.setText(record.getName()+" "+String.valueOf(record.getCountShets())+" сч.");
+        holder.mBalanse.setText(String.valueOf(record.getSumm()));
 
         return row;
     }
