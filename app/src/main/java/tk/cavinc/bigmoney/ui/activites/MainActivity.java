@@ -1,5 +1,6 @@
 package tk.cavinc.bigmoney.ui.activites;
 
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -9,7 +10,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import tk.cavinc.bigmoney.R;
+import tk.cavinc.bigmoney.data.managers.DataManager;
+import tk.cavinc.bigmoney.data.models.CurseModel;
+import tk.cavinc.bigmoney.data.models.RequestSheetModel;
+import tk.cavinc.bigmoney.data.network.RequestNetwork;
 import tk.cavinc.bigmoney.ui.fragments.BankFragment;
 import tk.cavinc.bigmoney.ui.fragments.MainFragment;
 import tk.cavinc.bigmoney.ui.fragments.PreferenseBankFragment;
@@ -18,15 +25,23 @@ import tk.cavinc.bigmoney.utils.ConstantManager;
 
 public class MainActivity extends AppCompatActivity implements SelectFragmentListener {
     private ActionBar mActionBar;
+    private DataManager mDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDataManager = DataManager.getInstance();
         //setContentView(R.layout.activity_main);
 
         viewFragment(new MainFragment(), "MAIN");
 
         mActionBar = getSupportActionBar();
+
+        getServerData();
+    }
+
+    private void getServerData() {
+        new RequestAllData().execute();
     }
 
     @Override
@@ -82,5 +97,33 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
                 break;
         }
 
+    }
+
+    // заправшиваем данные с сети
+    private class RequestAllData extends AsyncTask<Void,Void,Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            RequestNetwork requestNetwork = new RequestNetwork();
+            ArrayList<String> bank = requestNetwork.getBank();
+            mDataManager.getDB().setBank(bank);
+
+            ArrayList<String> valute = requestNetwork.getValute();
+            mDataManager.getDB().setValute(valute);
+
+            ArrayList<CurseModel> curse = requestNetwork.getCurse();
+            mDataManager.getDB().setCurse(curse);
+
+            ArrayList<RequestSheetModel> sheets = requestNetwork.getSheet();
+            mDataManager.getDB().setSheet(sheets);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
     }
 }

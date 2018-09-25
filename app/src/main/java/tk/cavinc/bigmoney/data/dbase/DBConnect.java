@@ -1,5 +1,6 @@
 package tk.cavinc.bigmoney.data.dbase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 
+import tk.cavinc.bigmoney.data.models.CurseModel;
+import tk.cavinc.bigmoney.data.models.MainBankModel;
+import tk.cavinc.bigmoney.data.models.RequestSheetModel;
 import tk.cavinc.bigmoney.data.models.SheetModel;
 
 /**
@@ -55,5 +59,77 @@ public class DBConnect {
         return rec;
     }
 
+    // записали валюту
+    public void setValute(ArrayList<String> data) {
+        open();
+        ContentValues values = new ContentValues();
+        for (String l: data){
+            values.clear();
+            values.put("title",l);
+            database.insertWithOnConflict(DBHelper.VALUTE,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+        }
+        close();
+    }
+
+    // записали список банков
+    public void setBank (ArrayList<String> data) {
+        open();
+        ContentValues values = new ContentValues();
+        for (String l : data){
+            values.clear();
+            values.put("name_bank",l);
+            database.insertWithOnConflict(DBHelper.BANK,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+        }
+        close();
+    }
+
+    // записать список курсов валют
+    public void setCurse(ArrayList<CurseModel> data){
+        open();
+        ContentValues values = new ContentValues();
+        for (CurseModel lx : data){
+            values.put("in_name",lx.getInValute());
+            values.put("out_name",lx.getOutValute());
+            values.put("param",lx.getConvert());
+            database.insertWithOnConflict(DBHelper.CURSE,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+        }
+        close();
+    }
+
+    // сохранитм список счетов
+    public void setSheet(ArrayList<RequestSheetModel> data){
+        open();
+        ContentValues values = new ContentValues();
+        for (RequestSheetModel lx : data){
+            values.put("bank",lx.getBank());
+            values.put("sheet",lx.getSheet());
+            values.put("valute",lx.getValute());
+            values.put("balanse",lx.getBalanse());
+            database.insertWithOnConflict(DBHelper.SHEET,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+        }
+        close();
+    }
+
+
+    // получим список банков с валютами для главной
+    public void getBankMain(){
+        ArrayList<MainBankModel> bankModels = new ArrayList<>();
+        open();
+        Cursor cursor = database.rawQuery("select distinct bank from sheets",null);
+        while (cursor.moveToNext()){
+            String sql = "select sheet,valute,balanse from sheets\n" +
+                    "where bank='"+cursor.getString(0)+"'";
+            Cursor cursor2 = database.rawQuery(sql,null);
+            ArrayList<SheetModel> sheetModels = new ArrayList<>();
+            while (cursor.moveToNext()){
+                sheetModels.add(new SheetModel(
+                        cursor.getString(cursor.getColumnIndex("sheet")),
+                        cursor.getDouble(cursor.getColumnIndex("balanse")),
+                        cursor.getString(cursor.getColumnIndex("valute"))));
+            }
+            bankModels.add(new MainBankModel(cursor.getString(0),sheetModels));
+        }
+        close();
+    }
 
 }

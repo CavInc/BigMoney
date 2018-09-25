@@ -36,16 +36,16 @@ public class DBHelper extends SQLiteOpenHelper {
         if (oldVersion<1){
             db.execSQL("create table "+VALUTE+"(" +
                     "title text," +
-                    "primary key(title)");
+                    "primary key(title))");
 
             db.execSQL("create table "+BANK+"(" +
                     "name_bank text," +
-                    "primary key(name_bak)");
+                    "primary key(name_bank))");
 
             db.execSQL("create table "+CURSE+"(" +
                     "in_name text," +
                     "out_name text," +
-                    "price real default 0," +
+                    "param real default 0," +
                     "primary key (in_name,out_name))");
 
             db.execSQL("create table "+SHEET+"(" +
@@ -53,7 +53,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     "sheet text not null," +
                     "valute text not null," +
                     "balanse real default 0," +
-                    "primary key (bank,sheet,valute)");
+                    "use_sheet integer default 0,"+ // используем счет или нет
+                    "primary key (bank,sheet,valute))");
 
         }
     }

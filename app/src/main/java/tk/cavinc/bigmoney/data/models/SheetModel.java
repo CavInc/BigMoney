@@ -7,10 +7,17 @@ package tk.cavinc.bigmoney.data.models;
 public class SheetModel {
     private String mSheet;
     private double mBalance;
+    private String mValute;
 
     public SheetModel(String sheet, double balance) {
         mSheet = sheet;
         mBalance = balance;
+    }
+
+    public SheetModel(String sheet, double balance, String valute) {
+        mSheet = sheet;
+        mBalance = balance;
+        mValute = valute;
     }
 
     public String getSheet() {
@@ -19,5 +26,9 @@ public class SheetModel {
 
     public double getBalance() {
         return mBalance;
+    }
+
+    public String getValute() {
+        return mValute;
     }
 }

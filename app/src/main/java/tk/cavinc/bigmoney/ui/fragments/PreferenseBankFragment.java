@@ -11,13 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 import tk.cavinc.bigmoney.R;
+import tk.cavinc.bigmoney.data.managers.DataManager;
 
 /**
  * Created by cav on 24.09.18.
  */
 
 public class PreferenseBankFragment extends Fragment implements View.OnClickListener {
+
+    private DataManager mDataManager;
 
     private Spinner mValute;
     private Spinner mBank;
@@ -28,12 +33,13 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pref_bank_fragment, container, false);
+        mDataManager = DataManager.getInstance();
 
         rootView.findViewById(R.id.pref_add_sheet).setOnClickListener(this);
         mValute = rootView.findViewById(R.id.pref_valute);
         mBank = rootView.findViewById(R.id.pref_bank);
 
-        String[] valueData = {"RUR","USD"};
+        ArrayList<String> valueData = mDataManager.getDB().getValute();
 
         ArrayAdapter<String> adapterValute = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item,valueData);
@@ -41,7 +47,7 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
 
         mValute.setAdapter(adapterValute);
 
-        String[] bankData = {"Сбербанк","ВТБ 24"};
+        ArrayList<String> bankData = mDataManager.getDB().getBank();
 
         ArrayAdapter<String> adapterBanl = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item,bankData);
