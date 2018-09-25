@@ -47,7 +47,7 @@ public class BankSteetAdapter extends ArrayAdapter<SheetModel> {
 
         SheetModel record = getItem(position);
         holder.mSheetTitle.setText(record.getSheet());
-        holder.mSheetBalanse.setText(String.valueOf(record.getBalance()));
+        holder.mSheetBalanse.setText(String.valueOf(record.getBalance())+" "+record.getValute());
 
         return row;
     }

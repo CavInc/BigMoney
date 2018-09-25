@@ -124,6 +124,10 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Fragment fg = getSupportFragmentManager().findFragmentByTag("main");
+            if (fg != null && fg.isVisible()) {
+                ((MainFragment) fg).refreshData();
+            }
         }
     }
 }

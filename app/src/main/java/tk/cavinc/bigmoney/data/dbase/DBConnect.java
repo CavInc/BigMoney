@@ -112,7 +112,7 @@ public class DBConnect {
 
 
     // получим список банков с валютами для главной
-    public void getBankMain(){
+    public ArrayList<MainBankModel> getBankMain(){
         ArrayList<MainBankModel> bankModels = new ArrayList<>();
         open();
         Cursor cursor = database.rawQuery("select distinct bank from sheets",null);
@@ -121,15 +121,28 @@ public class DBConnect {
                     "where bank='"+cursor.getString(0)+"'";
             Cursor cursor2 = database.rawQuery(sql,null);
             ArrayList<SheetModel> sheetModels = new ArrayList<>();
-            while (cursor.moveToNext()){
+            while (cursor2.moveToNext()){
                 sheetModels.add(new SheetModel(
-                        cursor.getString(cursor.getColumnIndex("sheet")),
-                        cursor.getDouble(cursor.getColumnIndex("balanse")),
-                        cursor.getString(cursor.getColumnIndex("valute"))));
+                        cursor2.getString(cursor2.getColumnIndex("sheet")),
+                        cursor2.getDouble(cursor2.getColumnIndex("balanse")),
+                        cursor2.getString(cursor2.getColumnIndex("valute"))));
             }
             bankModels.add(new MainBankModel(cursor.getString(0),sheetModels));
         }
         close();
+        return bankModels;
+    }
+
+    // получили значение конверсии
+    public double getConverse(String inValute,String outValute){
+        double res = 0;
+        open();
+        Cursor cursor = database.query(DBHelper.CURSE,new String[]{"param"},"in_name=? and out_name=?",new String[]{inValute,outValute},null,null,null);
+        while (cursor.moveToNext()){
+            res = cursor.getDouble(0);
+        }
+        close();
+        return res;
     }
 
 }

@@ -60,6 +60,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
     }
 
     private void updateUI(){
+        /*
         ArrayList<MainBankModel> data = new ArrayList<>();
 
         ArrayList<SheetModel> sheet1 = new ArrayList<>();
@@ -72,9 +73,12 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         sheet2.add(new SheetModel("324234234",345232.0));
 
         data.add(new MainBankModel("ВТБ 24",sheet2));
+        */
+
+        ArrayList<MainBankModel> datax = mDataManager.getDB().getBankMain();
 
         if (mAdapter == null ){
-            mAdapter = new BankListAdapter(getActivity(),R.layout.main_bank_item,data);
+            mAdapter = new BankListAdapter(getActivity(),R.layout.main_bank_item,datax);
             mListView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
@@ -90,5 +94,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         }
 
         return false;
+    }
+
+    public void refreshData(){
+        updateUI();
     }
 }

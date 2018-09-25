@@ -45,4 +45,20 @@ public class MainBankModel {
     public ArrayList<SheetModel> getSheetModels() {
         return mSheetModels;
     }
+
+    public double getSumm(){
+        double rec = 0;
+        for (SheetModel lx : mSheetModels){
+            rec += lx.getBalance();
+        }
+        return rec;
+    }
+
+    public double getSummValute(String valute){
+        double rec = 0;
+
+        return rec;
+    }
+
+
 }

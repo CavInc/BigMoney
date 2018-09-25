@@ -52,6 +52,7 @@ public class BankFragment extends Fragment {
         mListView = rootView.findViewById(R.id.bank_lv);
 
         mBankTitle.setText(mBank.getBank().getName());
+        mBankBalance.setText(String.valueOf(mBank.getBank().getSumm()));
 
         ArrayList<SheetModel> sheet = mBank.getBank().getSheetModels();
 
