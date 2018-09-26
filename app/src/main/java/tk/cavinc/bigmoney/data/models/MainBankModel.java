@@ -74,9 +74,12 @@ public class MainBankModel {
      */
 
     public double getSummValute(String valute){
+        Curse curse = Curse.getInstance();
+        curse.refresh();
         double rec = 0;
         for (SheetModel lx :mSheetModels) {
-
+            double param = curse.getParam(lx.getValute(),valute);
+            rec += lx.getBalance()/param;
         }
         return rec;
     }

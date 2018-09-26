@@ -44,7 +44,10 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         mSelectFragmentListener = (SelectFragmentListener) context;
     }
 
-    public MainFragment(){
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mDataManager = DataManager.getInstance();
     }
 

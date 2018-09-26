@@ -37,6 +37,7 @@ public class Curse {
 
     // возвращаем коэфицент по паре валют
     public double getParam(String in_valute,String out_valute) {
+        if (out_valute == null) return 1;
         int id = mCurses.indexOf(new CurseModel(in_valute,out_valute,0));
         if (id !=-1) {
             return mCurses.get(id).getConvert();

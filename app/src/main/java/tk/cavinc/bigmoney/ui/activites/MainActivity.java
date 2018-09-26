@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress();
+           // showProgress();
         }
 
         @Override
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            hideProgress();
+           // hideProgress();
             Fragment fg = getSupportFragmentManager().findFragmentByTag("main");
             if (fg != null && fg.isVisible()) {
                 ((MainFragment) fg).refreshData();

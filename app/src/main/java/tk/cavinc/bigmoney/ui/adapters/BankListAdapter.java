@@ -53,7 +53,11 @@ public class BankListAdapter extends ArrayAdapter<MainBankModel> {
         MainBankModel record = getItem(position);
 
         holder.mBank.setText(record.getName()+" "+String.valueOf(record.getCountShets())+" сч.");
-        holder.mBalanse.setText(String.valueOf(record.getSumm()));
+        holder.mBalanse.setText(String.format("%.2f",record.getSumm()));
+        /*
+        holder.mBalanse.setText(String.format("%.2f",record.getSumm())
+                +"  "+String.format("%.2f",record.getSummValute(mValute))+" "+mValute);
+                */
 
         return row;
     }
