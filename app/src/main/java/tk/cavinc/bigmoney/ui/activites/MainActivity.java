@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         if (item.getItemId() == android.R.id.home) {
             backFragment();
         }
+        if (item.getItemId() == R.id.main_refresh) {
+            getServerData();
+        }
         return super.onOptionsItemSelected(item);
     }
 
