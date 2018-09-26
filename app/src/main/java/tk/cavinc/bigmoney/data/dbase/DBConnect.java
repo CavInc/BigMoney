@@ -98,6 +98,14 @@ public class DBConnect {
     // читаем список курсов валют
     public ArrayList<CurseModel> getCurse(){
         ArrayList<CurseModel> rec = new ArrayList<>();
+        Cursor cursor = database.query(DBHelper.CURSE,new String[]{"in_name","out_name","param"},null,null,null,null,null);
+        while (cursor.moveToNext()){
+            rec.add(new CurseModel(
+                    cursor.getString(cursor.getColumnIndex("in_name")),
+                    cursor.getString(cursor.getColumnIndex("out_name")),
+                    cursor.getDouble(cursor.getColumnIndex("param"))
+            ));
+        }
 
         return rec;
     }
