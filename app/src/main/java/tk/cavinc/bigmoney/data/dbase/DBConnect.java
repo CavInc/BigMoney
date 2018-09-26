@@ -98,6 +98,7 @@ public class DBConnect {
     // читаем список курсов валют
     public ArrayList<CurseModel> getCurse(){
         ArrayList<CurseModel> rec = new ArrayList<>();
+        open();
         Cursor cursor = database.query(DBHelper.CURSE,new String[]{"in_name","out_name","param"},null,null,null,null,null);
         while (cursor.moveToNext()){
             rec.add(new CurseModel(
@@ -106,7 +107,7 @@ public class DBConnect {
                     cursor.getDouble(cursor.getColumnIndex("param"))
             ));
         }
-
+        close();
         return rec;
     }
 

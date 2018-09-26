@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import tk.cavinc.bigmoney.R;
+import tk.cavinc.bigmoney.data.managers.DataManager;
 import tk.cavinc.bigmoney.data.models.SheetModel;
 import tk.cavinc.bigmoney.utils.Curse;
 
@@ -23,11 +24,15 @@ import tk.cavinc.bigmoney.utils.Curse;
 public class BankSteetAdapter extends ArrayAdapter<SheetModel> {
     private LayoutInflater mInflater;
     private int resLayout;
+    private Curse mCurse;
+    private String mValute;
 
     public BankSteetAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<SheetModel> objects) {
         super(context, resource, objects);
         resLayout = resource;
         mInflater = LayoutInflater.from(context);
+        mCurse = Curse.getInstance();
+        mValute = DataManager.getInstance().getPreManager().getConvValute();
     }
 
     @NonNull
@@ -46,11 +51,12 @@ public class BankSteetAdapter extends ArrayAdapter<SheetModel> {
             holder = (ViewHolder) row.getTag();
         }
 
-        Curse curse = Curse.getInstance();
-
         SheetModel record = getItem(position);
+        double param = mCurse.getParam(record.getValute(),mValute);
+
         holder.mSheetTitle.setText(record.getSheet());
-        holder.mSheetBalanse.setText(String.valueOf(record.getBalance())+" "+record.getValute());
+        holder.mSheetBalanse.setText(String.format("%.2f",record.getBalance())
+                +" "+record.getValute()+"  "+String.format("%.2f",record.getBalance()/param)+" "+mValute);
 
         return row;
     }

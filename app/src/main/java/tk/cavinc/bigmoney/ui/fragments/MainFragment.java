@@ -64,20 +64,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
     }
 
     private void updateUI(){
-        /*
-        ArrayList<MainBankModel> data = new ArrayList<>();
-
-        ArrayList<SheetModel> sheet1 = new ArrayList<>();
-        sheet1.add(new SheetModel("320405434534",434.54));
-        sheet1.add(new SheetModel("4023412412412",64342));
-
-        data.add(new MainBankModel("Сбребанк",sheet1));
-
-        ArrayList<SheetModel> sheet2 = new ArrayList<>();
-        sheet2.add(new SheetModel("324234234",345232.0));
-
-        data.add(new MainBankModel("ВТБ 24",sheet2));
-        */
 
         ArrayList<MainBankModel> datax = mDataManager.getDB().getBankMain();
 

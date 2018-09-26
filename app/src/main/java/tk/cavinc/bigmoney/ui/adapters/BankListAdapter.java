@@ -13,7 +13,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import tk.cavinc.bigmoney.R;
+import tk.cavinc.bigmoney.data.managers.DataManager;
 import tk.cavinc.bigmoney.data.models.MainBankModel;
+import tk.cavinc.bigmoney.utils.Curse;
 
 /**
  * Created by cav on 24.09.18.
@@ -22,12 +24,15 @@ import tk.cavinc.bigmoney.data.models.MainBankModel;
 public class BankListAdapter extends ArrayAdapter<MainBankModel> {
     private LayoutInflater mInflater;
     private int resLayout;
-
+    private Curse mCurse;
+    private String mValute;
 
     public BankListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<MainBankModel> objects) {
         super(context, resource, objects);
         resLayout = resource;
         mInflater = LayoutInflater.from(context);
+        mCurse = Curse.getInstance();
+        mValute = DataManager.getInstance().getPreManager().getConvValute();
     }
 
     @NonNull
@@ -46,6 +51,7 @@ public class BankListAdapter extends ArrayAdapter<MainBankModel> {
         }
 
         MainBankModel record = getItem(position);
+
         holder.mBank.setText(record.getName()+" "+String.valueOf(record.getCountShets())+" сч.");
         holder.mBalanse.setText(String.valueOf(record.getSumm()));
 

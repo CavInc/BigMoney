@@ -1,5 +1,8 @@
 package tk.cavinc.bigmoney.ui.activites;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -105,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
     // заправшиваем данные с сети
     private class RequestAllData extends AsyncTask<Void,Void,Void> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgress();
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -127,9 +135,33 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            hideProgress();
             Fragment fg = getSupportFragmentManager().findFragmentByTag("main");
             if (fg != null && fg.isVisible()) {
                 ((MainFragment) fg).refreshData();
+            }
+        }
+    }
+
+    protected ProgressDialog mProgressDialog;
+
+    public void showProgress(){
+        if (mProgressDialog==null) {
+            mProgressDialog = new ProgressDialog(this,R.style.custom_dialog);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.progress_splash);
+        }else{
+            mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.progress_splash);
+        }
+
+    }
+    public void hideProgress(){
+        if (mProgressDialog!=null){
+            if (mProgressDialog.isShowing()){
+                mProgressDialog.hide();
             }
         }
     }
