@@ -8,6 +8,8 @@ public class SheetModel {
     private String mSheet;
     private double mBalance;
     private String mValute;
+    private double mParamConvet = 1;
+
 
     public SheetModel(String sheet, double balance) {
         mSheet = sheet;
@@ -20,6 +22,13 @@ public class SheetModel {
         mValute = valute;
     }
 
+    public SheetModel(String sheet, double balance, String valute, double paramConvet) {
+        mSheet = sheet;
+        mBalance = balance;
+        mValute = valute;
+        mParamConvet = paramConvet;
+    }
+
     public String getSheet() {
         return mSheet;
     }
@@ -30,5 +39,13 @@ public class SheetModel {
 
     public String getValute() {
         return mValute;
+    }
+
+    public void setParamConvet(double paramConvet) {
+        mParamConvet = paramConvet;
+    }
+
+    public double getConvetBalance(){
+        return mBalance/mParamConvet;
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import tk.cavinc.bigmoney.data.managers.DataManager;
  */
 
 public class PreferenseBankFragment extends Fragment implements View.OnClickListener {
+
+    private ExpandableListView mListView;
 
     private DataManager mDataManager;
 

@@ -14,6 +14,7 @@ import java.util.List;
 
 import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.models.SheetModel;
+import tk.cavinc.bigmoney.utils.Curse;
 
 /**
  * Created by cav on 24.09.18.
@@ -44,6 +45,8 @@ public class BankSteetAdapter extends ArrayAdapter<SheetModel> {
         } else {
             holder = (ViewHolder) row.getTag();
         }
+
+        Curse curse = Curse.getInstance();
 
         SheetModel record = getItem(position);
         holder.mSheetTitle.setText(record.getSheet());

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 
 import tk.cavinc.bigmoney.data.managers.DataManager;
+import tk.cavinc.bigmoney.utils.Curse;
 
 /**
  * Created by cav on 24.09.18.
@@ -48,6 +49,14 @@ public class MainBankModel {
 
     public ArrayList<SheetModel> getSheetModels() {
         return mSheetModels;
+    }
+
+    public ArrayList<SheetModel> getSheetModelsInConvert(String valute,double param) {
+        ArrayList<SheetModel> rec = new ArrayList<>();
+        for (SheetModel lx : mSheetModels) {
+            rec.add(new SheetModel(lx.getSheet(),lx.getBalance(),lx.getValute(),param));
+        }
+        return rec;
     }
 
     public double getSumm(){

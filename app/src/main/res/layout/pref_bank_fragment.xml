@@ -36,8 +36,9 @@
         android:background="@color/app_gray_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <ListView
+    <ExpandableListView
+        android:id="@+id/pref_elv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"></ExpandableListView>
 
 </LinearLayout>

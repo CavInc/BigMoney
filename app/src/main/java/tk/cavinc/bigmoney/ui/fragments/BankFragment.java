@@ -18,6 +18,7 @@ import tk.cavinc.bigmoney.data.models.SheetModel;
 import tk.cavinc.bigmoney.ui.adapters.BankSteetAdapter;
 import tk.cavinc.bigmoney.ui.interfaces.SelectFragmentListener;
 import tk.cavinc.bigmoney.utils.Bank;
+import tk.cavinc.bigmoney.utils.Curse;
 
 /**
  * Created by cav on 24.09.18.
@@ -33,6 +34,7 @@ public class BankFragment extends Fragment {
     private ListView mListView;
 
     private Bank mBank;
+    private Curse mCurse;
 
     public static BankFragment newInstance(){
 
@@ -54,8 +56,12 @@ public class BankFragment extends Fragment {
         mBankTitle.setText(mBank.getBank().getName());
         mBankBalance.setText(String.valueOf(mBank.getBank().getSumm()));
 
-        ArrayList<SheetModel> sheet = mBank.getBank().getSheetModels();
+        // немного криво но пусть пока так
+        mCurse = Curse.getInstance();
+        mCurse.refresh();
 
+        //ArrayList<SheetModel> sheet = mBank.getBank().getSheetModels();
+        ArrayList<SheetModel> sheet = mBank.getBank().getSheetModels();
 
         mAdapter = new BankSteetAdapter(getActivity(),R.layout.bank_item,sheet);
         mListView.setAdapter(mAdapter);

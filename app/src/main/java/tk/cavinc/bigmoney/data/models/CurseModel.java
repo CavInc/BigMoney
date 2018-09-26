@@ -26,4 +26,22 @@ public class CurseModel {
     public double getConvert() {
         return mConvert;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        if(obj == null)
+            return false;
+                /* Удостоверимся, что ссылки имеют тот же самый тип */
+        if(!(getClass() == obj.getClass())) {
+            return false;
+        }else {
+            CurseModel tmp = (CurseModel) obj;
+            if (tmp.mInValute.equals(this.mInValute) && tmp.mOutValute.equals(tmp.mOutValute)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
