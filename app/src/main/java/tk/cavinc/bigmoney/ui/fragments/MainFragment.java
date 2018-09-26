@@ -88,7 +88,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
             mAdapter.notifyDataSetChanged();
         }
 
-        mSummBalanse.setText("Итого : ");
+        double balanseValute = mDataManager.getDB().getAllSheetSumValute(mDataManager.getPreManager().getConvValute());
+
+        mSummBalanse.setText("Итого : "+String.format("%.2f",balanseValute)+" "+mDataManager.getPreManager().getConvValute());
     }
 
     @Override

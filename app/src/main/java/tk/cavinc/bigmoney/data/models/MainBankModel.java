@@ -1,6 +1,10 @@
 package tk.cavinc.bigmoney.data.models;
 
+import android.database.Cursor;
+
 import java.util.ArrayList;
+
+import tk.cavinc.bigmoney.data.managers.DataManager;
 
 /**
  * Created by cav on 24.09.18.
@@ -54,11 +58,28 @@ public class MainBankModel {
         return rec;
     }
 
+
+    /*
+    select st.bank,st.sheet,st.valute,st.balanse,(st.balanse/coalesce(cr.param,1)) as convbalance,cr.param,coalesce(cr.param,1) from sheets st
+  left join curse cr on st.valute=in_name and cr.out_name='USD'
+     */
+
     public double getSummValute(String valute){
         double rec = 0;
+        for (SheetModel lx :mSheetModels) {
 
+        }
         return rec;
     }
 
+    // возврат данных сконвертирванных по счету
+    public double getConvertValute(String sheet,String valute) {
+        double rec = 0;
+        // так делать не надо это жесткое свызваение модулей но фиг с ним
+        DataManager dm = DataManager.getInstance();
+
+
+        return rec;
+    }
 
 }

@@ -95,6 +95,12 @@ public class DBConnect {
         }
         close();
     }
+    // читаем список курсов валют
+    public ArrayList<CurseModel> getCurse(){
+        ArrayList<CurseModel> rec = new ArrayList<>();
+
+        return rec;
+    }
 
     // сохранитм список счетов
     public void setSheet(ArrayList<RequestSheetModel> data){
@@ -143,6 +149,20 @@ public class DBConnect {
         }
         close();
         return res;
+    }
+
+    // получили сумму по счетам
+    public double getAllSheetSumValute(String valute) {
+        double rec = 0.0;
+        open();
+        String sql = "select sum(st.balanse) as balanse,sum(st.balanse/coalesce(cr.param,1)) as convbalance from sheets st\n" +
+                " left join curse cr on st.valute=in_name and cr.out_name='"+valute+"'";
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()){
+            rec = cursor.getDouble(1);
+        }
+        close();
+        return rec;
     }
 
 }
