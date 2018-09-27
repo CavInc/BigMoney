@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.managers.DataManager;
 import tk.cavinc.bigmoney.data.models.SheetModel;
+import tk.cavinc.bigmoney.data.models.SummaValuteModel;
 import tk.cavinc.bigmoney.ui.adapters.BankSteetAdapter;
 import tk.cavinc.bigmoney.ui.interfaces.SelectFragmentListener;
 import tk.cavinc.bigmoney.utils.Bank;
@@ -54,7 +55,10 @@ public class BankFragment extends Fragment {
         mListView = rootView.findViewById(R.id.bank_lv);
 
         mBankTitle.setText(mBank.getBank().getName());
-        mBankBalance.setText(String.valueOf(mBank.getBank().getSumm()));
+
+        SummaValuteModel dataSumm  = mBank.getBank().getSumm();
+
+        mBankBalance.setText(String.valueOf(dataSumm.getBalanse()+" "+dataSumm.getValute()));
 
         // немного криво но пусть пока так
         mCurse = Curse.getInstance();
