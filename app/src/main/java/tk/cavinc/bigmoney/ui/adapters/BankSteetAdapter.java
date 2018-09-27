@@ -53,10 +53,14 @@ public class BankSteetAdapter extends ArrayAdapter<SheetModel> {
 
         SheetModel record = getItem(position);
         double param = mCurse.getParam(record.getValute(),mValute);
+        String mv = mValute;
+        if (param == 1) {
+            mv = record.getValute();
+        }
 
         holder.mSheetTitle.setText(record.getSheet());
         holder.mSheetBalanse.setText(String.format("%.2f",record.getBalance())
-                +" "+record.getValute()+"  "+String.format("%.2f",record.getBalance()/param)+" "+mValute);
+                +" "+record.getValute()+"  "+String.format("%.2f",record.getBalance()/param)+" "+mv);
 
         return row;
     }
