@@ -174,4 +174,26 @@ public class DBConnect {
         return rec;
     }
 
+    // получили добавлены сщета
+    public ArrayList<String> getLinkedSheet(String bank) {
+        ArrayList<String> rec = new ArrayList<>();
+        String sql = "select sheet from sheets\n" +
+                "where bank='"+bank+"' and use_sheet=1";
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()){
+            rec.add(cursor.getString(0));
+        }
+        close();
+        return rec;
+    }
+
+    // обновляем данные о привязанном счете
+    public void addSheetInBank(String bank,String sheet) {
+        open();
+        ContentValues values = new ContentValues();
+        values.put("use_sheet",1);
+        database.update(DBHelper.SHEET,values,"bank=? and sheet=?",new String[]{bank,sheet});
+        close();
+    }
 }

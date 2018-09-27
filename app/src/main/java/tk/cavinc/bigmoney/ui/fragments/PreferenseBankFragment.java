@@ -15,9 +15,12 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.managers.DataManager;
+import tk.cavinc.bigmoney.ui.adapters.CustomExpandListAdapter;
 import tk.cavinc.bigmoney.ui.interfaces.ChangeValuteListener;
 
 /**
@@ -35,6 +38,7 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
     private Spinner mValute;
     private Spinner mBank;
     private EditText mSheet;
+    private CustomExpandListAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -51,6 +55,10 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
         rootView.findViewById(R.id.pref_add_sheet).setOnClickListener(this);
         mValute = rootView.findViewById(R.id.pref_valute);
         mBank = rootView.findViewById(R.id.pref_bank);
+        mListView = rootView.findViewById(R.id.pref_elv);
+        mSheet = rootView.findViewById(R.id.pref_shett);
+
+        rootView.findViewById(R.id.pref_add_sheet).setOnClickListener(this);
 
         ArrayList<String> valueData = mDataManager.getDB().getValute();
 
@@ -69,17 +77,80 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
 
         mValute.setOnItemSelectedListener(mSelectedListener);
 
+        int pos = adapterValute.getPosition(mDataManager.getPreManager().getConvValute());
+
+        mValute.setSelection(pos);
+
+        updateUI();
 
         return rootView;
     }
 
     @Override
     public void onClick(View view) {
-
+        if (view.getId() == R.id.pref_add_sheet) {
+            String bank = mBank.getSelectedItem().toString();
+            mDataManager.getDB().addSheetInBank(bank,mSheet.getText().toString());
+            updateUI();
+        }
     }
 
-    private void updateUI(){
+    private void updateUI() {
 
+        // заполняем коллекцию групп из массива с названиями групп
+        ArrayList<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
+
+        // создаем коллекцию для коллекций элементов
+        ArrayList<ArrayList<Map<String, String>>> childData = new ArrayList<ArrayList<Map<String, String>>>();
+
+        // создаем  expand list view
+
+        // список атрибутов групп для чтения
+        String groupFrom[] = new String[]{"groupName"};
+        // список ID view-элементов, в которые будет помещены атрибуты групп
+        int groupTo[] = new int[]{R.id.elg_name};
+
+        // список атрибутов элементов для чтения
+        String childFrom[] = new String[]{"itemText", "itemValue"};
+        // список ID view-элементов, в которые будет помещены атрибуты элементов
+        int childTo[] = new int[]{R.id.expant_list_item_name};
+
+
+        ArrayList<String> bankData = mDataManager.getDB().getBank();
+        for (String lx : bankData) {
+            HashMap<String, String> m = new HashMap<String, String>();
+            m.put("groupName", lx);
+            ArrayList<String> childSheet = mDataManager.getDB().getLinkedSheet(lx);
+
+            ArrayList<Map<String, String>> childDataItem = new ArrayList<Map<String, String>>();
+            HashMap<String, String> mx = new HashMap<>();
+            for (String lf : childSheet) {
+                mx.put("itemText", lf);
+                childDataItem.add(mx);
+            }
+            childData.add(childDataItem);
+            groupData.add(m);
+        }
+
+        if (adapter == null) {
+            adapter = new CustomExpandListAdapter(
+                getActivity(),
+                groupData,
+                R.layout.expant_list_group_item,
+                groupFrom,
+                groupTo,
+                childData,
+                R.layout.expand_list_item,
+                childFrom,
+                childTo);
+
+            mListView.setAdapter(adapter);
+            for (int i = 0; i < groupData.size(); i++) {
+                mListView.expandGroup(i);
+            }
+        } else {
+            adapter.setDate(groupData,childData);
+        }
     }
 
     AdapterView.OnItemSelectedListener mSelectedListener = new AdapterView.OnItemSelectedListener() {
