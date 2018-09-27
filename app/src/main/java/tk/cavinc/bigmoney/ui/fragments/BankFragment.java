@@ -43,6 +43,12 @@ public class BankFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDataManager = DataManager.getInstance();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,8 +63,10 @@ public class BankFragment extends Fragment {
         mBankTitle.setText(mBank.getBank().getName());
 
         SummaValuteModel dataSumm  = mBank.getBank().getSumm();
+        double summValure =  mBank.getBank().getSummValute(mDataManager.getPreManager().getConvValute());
 
-        mBankBalance.setText(String.valueOf(dataSumm.getBalanse()+" "+dataSumm.getValute()));
+        mBankBalance.setText(String.format("%.2f",dataSumm.getBalanse())+" "+dataSumm.getValute()
+                +"  "+String.format("%.2f",summValure)+" "+mDataManager.getPreManager().getConvValute());
 
         // немного криво но пусть пока так
         mCurse = Curse.getInstance();
@@ -74,6 +82,10 @@ public class BankFragment extends Fragment {
     }
 
     private void updateUI(){
+
+    }
+
+    public void refresh(){
 
     }
 

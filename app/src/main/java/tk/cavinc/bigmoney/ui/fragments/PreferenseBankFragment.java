@@ -78,6 +78,10 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
 
     }
 
+    private void updateUI(){
+
+    }
+
     AdapterView.OnItemSelectedListener mSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
