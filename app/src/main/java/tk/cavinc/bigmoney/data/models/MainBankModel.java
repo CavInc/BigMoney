@@ -59,12 +59,15 @@ public class MainBankModel {
         return rec;
     }
 
-    public double getSumm(){
+    public SummaValuteModel getSumm(){
         double rec = 0;
+        String valute = "";
         for (SheetModel lx : mSheetModels){
             rec += lx.getBalance();
+            valute = lx.getValute();
         }
-        return rec;
+        SummaValuteModel res = new SummaValuteModel(rec, valute);
+        return res;
     }
 
 

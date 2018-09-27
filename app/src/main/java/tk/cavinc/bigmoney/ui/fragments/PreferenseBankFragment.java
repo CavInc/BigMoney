@@ -1,5 +1,6 @@
 package tk.cavinc.bigmoney.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.managers.DataManager;
+import tk.cavinc.bigmoney.ui.interfaces.ChangeValuteListener;
 
 /**
  * Created by cav on 24.09.18.
@@ -28,10 +30,17 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
 
     private DataManager mDataManager;
 
+    private ChangeValuteListener mValuteListener;
+
     private Spinner mValute;
     private Spinner mBank;
     private EditText mSheet;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mValuteListener = (ChangeValuteListener) context;
+    }
 
     @Nullable
     @Override
@@ -74,6 +83,9 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Object data = parent.getItemAtPosition(position);
             mDataManager.getPreManager().setConvValute((String) data);
+            if (mValuteListener != null) {
+                mValuteListener.onChangeValute((String) data);
+            }
         }
 
         @Override

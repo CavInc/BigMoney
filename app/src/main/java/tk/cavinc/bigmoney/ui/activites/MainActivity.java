@@ -23,10 +23,11 @@ import tk.cavinc.bigmoney.data.network.RequestNetwork;
 import tk.cavinc.bigmoney.ui.fragments.BankFragment;
 import tk.cavinc.bigmoney.ui.fragments.MainFragment;
 import tk.cavinc.bigmoney.ui.fragments.PreferenseBankFragment;
+import tk.cavinc.bigmoney.ui.interfaces.ChangeValuteListener;
 import tk.cavinc.bigmoney.ui.interfaces.SelectFragmentListener;
 import tk.cavinc.bigmoney.utils.ConstantManager;
 
-public class MainActivity extends AppCompatActivity implements SelectFragmentListener {
+public class MainActivity extends AppCompatActivity implements SelectFragmentListener,ChangeValuteListener {
     private ActionBar mActionBar;
     private DataManager mDataManager;
 
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         viewFragment(new MainFragment(), "MAIN");
 
         mActionBar = getSupportActionBar();
+
+        String valute = mDataManager.getPreManager().getConvValute();
+        mActionBar.setTitle(getResources().getString(R.string.app_label)+"  "+valute);
 
         getServerData();
     }
@@ -105,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
 
     }
 
+    @Override
+    public void onChangeValute(String valute) {
+        mActionBar.setTitle(getResources().getString(R.string.app_label)+"  "+valute);
+    }
+
     // заправшиваем данные с сети
     private class RequestAllData extends AsyncTask<Void,Void,Void> {
 
@@ -136,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
            // hideProgress();
-            Fragment fg = getSupportFragmentManager().findFragmentByTag("main");
+            Fragment fg = getSupportFragmentManager().findFragmentByTag("MAIN");
             if (fg != null && fg.isVisible()) {
                 ((MainFragment) fg).refreshData();
             }

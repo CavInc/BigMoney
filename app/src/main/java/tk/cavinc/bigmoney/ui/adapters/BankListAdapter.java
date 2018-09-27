@@ -15,6 +15,7 @@ import java.util.List;
 import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.managers.DataManager;
 import tk.cavinc.bigmoney.data.models.MainBankModel;
+import tk.cavinc.bigmoney.data.models.SummaValuteModel;
 import tk.cavinc.bigmoney.utils.Curse;
 
 /**
@@ -52,8 +53,10 @@ public class BankListAdapter extends ArrayAdapter<MainBankModel> {
 
         MainBankModel record = getItem(position);
 
+        SummaValuteModel dataSumm = record.getSumm();
+
         holder.mBank.setText(record.getName()+" "+String.valueOf(record.getCountShets())+" сч.");
-        holder.mBalanse.setText(String.format("%.2f",record.getSumm()));
+        holder.mBalanse.setText(String.format("%.2f",dataSumm.getBalanse())+" "+dataSumm.getValute());
         /*
         holder.mBalanse.setText(String.format("%.2f",record.getSumm())
                 +"  "+String.format("%.2f",record.getSummValute(mValute))+" "+mValute);
