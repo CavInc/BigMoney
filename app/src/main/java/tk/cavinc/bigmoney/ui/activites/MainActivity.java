@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.managers.DataManager;
@@ -50,11 +51,12 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
     @Override
     protected void onResume() {
         super.onResume();
-        getServerData();
+        getServerData(true);
     }
 
-    private void getServerData() {
-        new RequestAllData().execute();
+
+    private void getServerData(boolean delay) {
+        new RequestAllData(delay).execute();
     }
 
     @Override
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
             backFragment();
         }
         if (item.getItemId() == R.id.main_refresh) {
-            getServerData();
+            getServerData(false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -123,14 +125,34 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
     // заправшиваем данные с сети
     private class RequestAllData extends AsyncTask<Void,Void,Void> {
 
+        private boolean delay;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress();
+            //showProgress();
+        }
+
+        public RequestAllData(boolean delay){
+            this.delay = delay;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            if (delay) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgress();
+                }
+            });
+
             RequestNetwork requestNetwork = new RequestNetwork();
             ArrayList<String> bank = requestNetwork.getBank();
             mDataManager.getDB().setBank(bank);
