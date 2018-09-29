@@ -176,7 +176,6 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onDeleteSheet(String bank,String sheet) {
-        Log.d(TAG,bank+" "+sheet);
         mDataManager.getDB().deleteSheet(bank,sheet);
         updateUI();
     }
