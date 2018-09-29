@@ -177,8 +177,8 @@ public class DBConnect {
     // получили добавлены сщета
     public ArrayList<String> getLinkedSheet(String bank) {
         ArrayList<String> rec = new ArrayList<>();
-        String sql = "select sheet from sheets\n" +
-                "where bank='"+bank+"' and use_sheet=1";
+        String sql = "select sheet from "+DBHelper.SELECT_SHEET+"\n" +
+                "where bank='"+bank+"'";
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()){
@@ -191,9 +191,15 @@ public class DBConnect {
     // обновляем данные о привязанном счете
     public void addSheetInBank(String bank,String sheet) {
         open();
+        /*
         ContentValues values = new ContentValues();
         values.put("use_sheet",1);
         database.update(DBHelper.SHEET,values,"bank=? and sheet=?",new String[]{bank,sheet});
+        */
+        ContentValues values = new ContentValues();
+        values.put("bank",bank);
+        values.put("sheet",sheet);
+        int rec = (int) database.insertWithOnConflict(DBHelper.SELECT_SHEET,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         close();
     }
 }

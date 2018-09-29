@@ -180,6 +180,12 @@ public class MainActivity extends AppCompatActivity implements SelectFragmentLis
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mProgressDialog.dismiss();
+    }
+
     protected ProgressDialog mProgressDialog;
 
     public void showProgress(){

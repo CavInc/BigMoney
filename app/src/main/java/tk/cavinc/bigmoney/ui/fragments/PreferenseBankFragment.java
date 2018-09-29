@@ -91,6 +91,7 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
         if (view.getId() == R.id.pref_add_sheet) {
             String bank = mBank.getSelectedItem().toString();
             mDataManager.getDB().addSheetInBank(bank,mSheet.getText().toString());
+            mSheet.setText("");
             updateUI();
         }
     }

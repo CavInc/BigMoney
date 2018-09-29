@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BANK = "banks";
     public static final String CURSE = "curse";
     public static final String SHEET = "sheets";
+    public static final String SELECT_SHEET = "selectSheet";
 
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
@@ -55,6 +56,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     "balanse real default 0," +
                     "use_sheet integer default 0,"+ // используем счет или нет
                     "primary key (bank,sheet,valute))");
+
+            db.execSQL("create table "+SELECT_SHEET+"(" +
+                    "bank text not null," +
+                    "sheet text not null," +
+                    "primary key (bank,sheet))");
 
         }
     }
