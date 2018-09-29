@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomExpandListAdapter extends BaseExpandableListAdapter {
+import tk.cavinc.bigmoney.R;
+import tk.cavinc.bigmoney.ui.interfaces.DeleteSheetListener;
+
+public class CustomExpandListAdapter extends BaseExpandableListAdapter implements View.OnClickListener{
 
     private Context mContext;
     private List<? extends Map> mGroupData;
@@ -25,10 +29,12 @@ public class CustomExpandListAdapter extends BaseExpandableListAdapter {
     private int[] mChildTo;
 
     private LayoutInflater mInflater;
+    private DeleteSheetListener mDeleteSheetListener;
 
     public CustomExpandListAdapter(Context context, List<? extends Map> groupData, int groupLayout,
                                    String[] groupFrom, int[] groupTo, List<? extends List> childData,
-                                   int childLayout, String[] childFrom, int[] childTo) {
+                                   int childLayout, String[] childFrom, int[] childTo,
+                                   DeleteSheetListener listener) {
         mContext = context;
         mGroupData = groupData;
         mGroupLayout = groupLayout;
@@ -39,6 +45,7 @@ public class CustomExpandListAdapter extends BaseExpandableListAdapter {
         mChildFrom = childFrom;
         mChildTo = childTo;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mDeleteSheetListener = listener;
     }
 
 
@@ -111,6 +118,13 @@ public class CustomExpandListAdapter extends BaseExpandableListAdapter {
         String dt = (String) l.get(mChildFrom[0]);
         tv.setText(dt);
 
+        String gr = (String) ((HashMap) mGroupData.get(groupPosition)).get("groupName");
+        String[] tg = new String[]{gr,dt};
+
+        ImageView img = v.findViewById(R.id.delete_item);
+        img.setTag(tg);
+        img.setOnClickListener(this);
+
         return v;
     }
 
@@ -126,5 +140,13 @@ public class CustomExpandListAdapter extends BaseExpandableListAdapter {
         mChildData.clear();
         mChildData = childData;
         this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mDeleteSheetListener != null){
+            String [] tg = (String[]) v.getTag();
+            mDeleteSheetListener.onDeleteSheet(tg[0],tg[1]);
+        }
     }
 }

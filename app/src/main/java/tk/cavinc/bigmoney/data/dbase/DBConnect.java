@@ -202,4 +202,11 @@ public class DBConnect {
         int rec = (int) database.insertWithOnConflict(DBHelper.SELECT_SHEET,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         close();
     }
+
+    // удаляем счет
+    public void deleteSheet(String bank,String sheet) {
+        open();
+        database.delete(DBHelper.SELECT_SHEET,"bank=? and sheet=?",new String[]{bank,sheet});
+        close();
+    }
 }

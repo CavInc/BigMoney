@@ -3,8 +3,8 @@
         <shape>
             <solid android:color="@color/app_green_A400"/>
             <padding
-                android:top="8dp"
-                android:bottom="8dp"
+                android:top="4dp"
+                android:bottom="4dp"
                 android:left="8dp"
                 android:right="8dp"/>
         </shape>

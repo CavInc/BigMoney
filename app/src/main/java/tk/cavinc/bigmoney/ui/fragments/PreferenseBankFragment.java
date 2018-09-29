@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,15 @@ import tk.cavinc.bigmoney.R;
 import tk.cavinc.bigmoney.data.managers.DataManager;
 import tk.cavinc.bigmoney.ui.adapters.CustomExpandListAdapter;
 import tk.cavinc.bigmoney.ui.interfaces.ChangeValuteListener;
+import tk.cavinc.bigmoney.ui.interfaces.DeleteSheetListener;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by cav on 24.09.18.
  */
 
-public class PreferenseBankFragment extends Fragment implements View.OnClickListener {
+public class PreferenseBankFragment extends Fragment implements View.OnClickListener,DeleteSheetListener {
 
     private ExpandableListView mListView;
 
@@ -143,7 +147,7 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
                 childData,
                 R.layout.expand_list_item,
                 childFrom,
-                childTo);
+                childTo,this);
 
             mListView.setAdapter(adapter);
             for (int i = 0; i < groupData.size(); i++) {
@@ -169,4 +173,11 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
 
         }
     };
+
+    @Override
+    public void onDeleteSheet(String bank,String sheet) {
+        Log.d(TAG,bank+" "+sheet);
+        mDataManager.getDB().deleteSheet(bank,sheet);
+        updateUI();
+    }
 }
