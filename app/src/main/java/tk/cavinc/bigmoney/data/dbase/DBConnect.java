@@ -132,8 +132,14 @@ public class DBConnect {
         open();
         Cursor cursor = database.rawQuery("select distinct bank from sheets",null);
         while (cursor.moveToNext()){
+            /*
             String sql = "select sheet,valute,balanse from sheets\n" +
                     "where bank='"+cursor.getString(0)+"'";
+                    */
+            String sql = "select sh.sheet,sh.valute,sh.balanse from sheets sh\n" +
+                    "  left join selectsheet slh on slh.bank='"+cursor.getString(0)+"' and sh.sheet=slh.sheet\n" +
+                    " where sh.bank='"+cursor.getString(0)+"' and not slh.bank is null";
+
             Cursor cursor2 = database.rawQuery(sql,null);
             ArrayList<SheetModel> sheetModels = new ArrayList<>();
             while (cursor2.moveToNext()){
@@ -165,7 +171,10 @@ public class DBConnect {
         double rec = 0.0;
         open();
         String sql = "select sum(st.balanse) as balanse,sum(st.balanse/coalesce(cr.param,1)) as convbalance from sheets st\n" +
-                " left join curse cr on st.valute=in_name and cr.out_name='"+valute+"'";
+                " left join curse cr on st.valute=in_name and cr.out_name='"+valute+"'"+
+                " left join selectsheet slh on slh.bank=st.bank and st.sheet=slh.sheet"+
+                " where not slh.sheet is null";
+
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()){
             rec = cursor.getDouble(1);

@@ -38,7 +38,7 @@ public class CurseModel {
             return false;
         }else {
             CurseModel tmp = (CurseModel) obj;
-            if (tmp.mInValute.equals(this.mInValute) && tmp.mOutValute.equals(tmp.mOutValute)){
+            if (tmp.mInValute.equals(this.mInValute) & tmp.mOutValute.equals(this.mOutValute)){
                 return true;
             }
         }

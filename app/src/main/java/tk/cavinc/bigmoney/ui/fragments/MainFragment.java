@@ -74,6 +74,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
             mAdapter = new BankListAdapter(getActivity(),R.layout.main_bank_item,datax);
             mListView.setAdapter(mAdapter);
         } else {
+            mAdapter.setData(datax);
             mAdapter.notifyDataSetChanged();
         }
 
