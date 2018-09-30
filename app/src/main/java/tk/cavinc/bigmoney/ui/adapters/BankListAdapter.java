@@ -60,7 +60,7 @@ public class BankListAdapter extends ArrayAdapter<MainBankModel> {
         //holder.mBalanse.setText(String.format("%.2f",dataSumm.getBalanse())+" "+dataSumm.getValute());
 
 
-        holder.mBalanse.setText(String.format("%.2f",record.getSumm().getBalanse())
+        holder.mBalanse.setText(String.format("%.2f",record.getSumm().getBalanse())+" "+dataSumm.getValute()
                 +"  "+String.format("%.2f",record.getSummValute(mValute))+" "+mValute);
 
 

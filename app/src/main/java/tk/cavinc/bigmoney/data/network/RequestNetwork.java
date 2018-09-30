@@ -24,9 +24,9 @@ public class RequestNetwork {
                 (conn.getInputStream())));
         StringBuilder x = new StringBuilder();
         String output;
-        System.out.println("Output from Server .... \n");
+        //System.out.println("Output from Server .... \n");
         while ((output = br.readLine()) != null) {
-            System.out.println(output);
+           // System.out.println(output);
             x.append(output);
         }
         return x.toString();
