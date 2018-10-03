@@ -128,8 +128,8 @@ public class PreferenseBankFragment extends Fragment implements View.OnClickList
             ArrayList<String> childSheet = mDataManager.getDB().getLinkedSheet(lx);
 
             ArrayList<Map<String, String>> childDataItem = new ArrayList<Map<String, String>>();
-            HashMap<String, String> mx = new HashMap<>();
             for (String lf : childSheet) {
+                HashMap<String, String> mx = new HashMap<>();
                 mx.put("itemText", lf);
                 childDataItem.add(mx);
             }
