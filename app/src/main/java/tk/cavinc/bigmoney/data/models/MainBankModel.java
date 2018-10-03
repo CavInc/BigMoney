@@ -76,15 +76,22 @@ public class MainBankModel {
   left join curse cr on st.valute=in_name and cr.out_name='USD'
      */
 
-    public double getSummValute(String valute){
+    public SummaValuteModel getSummValute(String valute){
         Curse curse = Curse.getInstance();
         curse.refresh();
         double rec = 0;
+        String val = "";
         for (SheetModel lx :mSheetModels) {
             double param = curse.getParam(lx.getValute(),valute);
             rec += lx.getBalance()/param;
+            if (param == 1) {
+                val = lx.getValute();
+            } else {
+                val = valute;
+            }
         }
-        return rec;
+        SummaValuteModel res = new SummaValuteModel(rec,val);
+        return res;
     }
 
     // возврат данных сконвертирванных по счету

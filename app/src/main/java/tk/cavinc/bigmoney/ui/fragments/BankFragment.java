@@ -63,10 +63,16 @@ public class BankFragment extends Fragment {
         mBankTitle.setText(mBank.getBank().getName());
 
         SummaValuteModel dataSumm  = mBank.getBank().getSumm();
-        double summValure =  mBank.getBank().getSummValute(mDataManager.getPreManager().getConvValute());
+        //double summValure =  mBank.getBank().getSummValute(mDataManager.getPreManager().getConvValute());
 
+        SummaValuteModel smValute = mBank.getBank().getSummValute(mDataManager.getPreManager().getConvValute());
+
+        /*
         mBankBalance.setText(String.format("%.2f",dataSumm.getBalanse())+" "+dataSumm.getValute()
                 +"  "+String.format("%.2f",summValure)+" "+mDataManager.getPreManager().getConvValute());
+                */
+        mBankBalance.setText(String.format("%.2f",dataSumm.getBalanse())+" "+dataSumm.getValute()
+                +"  "+String.format("%.2f",smValute.getBalanse())+" "+ smValute.getValute());
 
         // немного криво но пусть пока так
         mCurse = Curse.getInstance();
